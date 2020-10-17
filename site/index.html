@@ -1,10 +1,146 @@
 ﻿<!DOCTYPE html>
-
 <html>
-<head>
-    <title>hello coursera</title>
+<head><title>jus for fun</title>
 </head>
 <body>
-<h1>hello coursera! ,its a great course</h1>
+
+
+  <label>First name :</label>
+  <input type="text" id="fname" name="fname"><br><br><br>
+  <label>Last name :</label>
+  <input type="text" id="lname" name="lname"><br><br><br>
+  <label>Mobile number :</label>
+  <input type="number" id="mnumber" name="phone"  maxlength="10"><br><br><br>
+  <input type="submit" value="Save"  onclick="onSaveClick()"><br><br>
+  <input type="button" value="Save Edits" id="sedit" onclick="onSedit()" style="display:none">
+
+<table id="result">
+  <thead>
+    <tr>
+      <th>First name</th>
+      <th> Second name</th>
+      <th>Mobile Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    </tr>
+  </tbody>
+
+
+
+</table>
+
+
+
+
+
+
+
+
 </body>
+<script>
+var employeeInfo=[];
+
+
+
+
+
+
+function onSaveClick() {
+  var fname=document.getElementById('fname').value;
+  var lname=document.getElementById('lname').value;
+  var mnumber=document.getElementById('mnumber').value;
+  var emplyee ={
+    fname: fname,
+    lname: lname,
+    mnumber:mnumber,
+  }
+  if (fname== "") {
+    alert('plz fill the free space');
+  }
+  else{
+  employeeInfo.push(emplyee);
+  
+  displayResult();
+  console.log(employeeInfo);
+  }
+
+}
+
+function displayResult(){
+  var tbdy = document.getElementsByTagName('tbody')[0];
+  var tblhtml ="";
+  if(employeeInfo && employeeInfo.length>0){
+    for (i=0; i< employeeInfo.length; i++){
+      var emp =employeeInfo[i];
+      var row = document.createElement('tr');
+
+      var fcel= document.createElement('td');
+      var fcelt= document.createTextNode(emp.fname);
+      fcel.appendChild(fcelt);
+      row.appendChild(fcel);
+
+
+      var td=document.createElement('td');
+      var tdtext=document.createTextNode(emp.lname);
+      td.appendChild(tdtext);
+      row.appendChild(td);
+
+
+      var tdmob=document.createElement('td');
+      var tdmobtext=document.createTextNode(emp.mnumber);
+      tdmob.appendChild(tdmobtext);
+      row.appendChild(tdmob);
+
+      row.innerHTML += '<td><button type="button" onclick="onDelete(this)">Delete</button></td>';
+      row.innerHTML += '<td><button type="button" onclick="onEdit(this)">Edit</button></td>';
+      tblhtml+= row.outerHTML ;
+
+
+    }
+  
+  if (tblhtml.length>0){
+    tbdy.innerHTML= tblhtml;
+  }
+
+ }
+}
+
+
+
+ 
+function onDelete(btn){
+  var confrm= confirm("Are you sure to delete");
+  if(confrm==true){
+    var index=btn.parentNode.parentNode.rowIndex;
+    var row=btn.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+    employeeInfo.splice(index-1,1);
+    displayResult();
+  }
+  else{
+    alert("cancelled");
+  }
+
+  console.log(employeeInfo);
+  
+}
+
+function onEdit(edt){
+  var index=edt.parentNode.parentNode.rowIndex;
+  //var redit=edt.parentNode.parentNode;
+  //redit.parentNode.removeChild(redit);
+  document.getElementById('fname').value=employeeInfo[index-1].fname;
+  document.getElementById('lname').value=employeeInfo[index-1].lname;
+  document.getElementById('mnumber').value=employeeInfo[index-1].mnumber;
+  document.getElementById('sedit').style.display='block';
+   
+}
+function onSedit(){
+
+}
+
+</script>
+
 </html>
